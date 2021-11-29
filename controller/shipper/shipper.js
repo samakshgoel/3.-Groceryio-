@@ -3,9 +3,11 @@ const mailservice = require('../../service/otpandmail');
 const otpGenerator = require('otp-generator');
 const jwt = require('jsonwebtoken');
 const { shipperModule, shipperAvailabilityModule } = require('../../model');
+const orderModule = require('../../model/order/index')
 const bcrypt = require('bcryptjs');
 const moment = require('moment')
 const getDateData = require('../../service/date');
+const { getShipperOrderList } = require('../../model/order/index');
 
 module.exports = {
 
@@ -72,6 +74,18 @@ module.exports = {
         } catch (err) {
             console.log(err);
             return response.errorResponse(res, 422, err.message);
+        }
+    },
+
+    async shipperOrderDetails(req,res){
+        let data = req.body
+        if(!data.shipper_id) return response.errorResponse(res,422,"Data is required")
+        try{
+            let shipper_order_details = await orderModule.getShipperOrderList(data.shipper_id)
+            return response.succesResponse(res,200,shipper_order_details) 
+        }catch(err){
+            console.log("ERROR",err)
+            return response.errorResponse(res,422,err.message)
         }
     },
 

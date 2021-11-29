@@ -17,8 +17,9 @@ module.exports = {
         return await userModel.updateOne(data);
     },
 
+    /*Method to get all user */
     async getAllUserForAdmin(data){
-        return await userModel.find({name : new RegExp(data.name,'i')}).skip(data.skip).limit(data.limit)
+        return await userModel.find({first_name : new RegExp(data.name,'i')}).skip(data.skip).limit(data.limit)
     }
     
 }

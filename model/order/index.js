@@ -16,5 +16,9 @@ module.exports={
 
     async orderHistory(user_id){
         return await orderModule.find({user_id:user_id})
+    },
+
+    async getShipperOrderList(id){
+        return await orderModule.findOne({"shipper_details.shipper_id":id,"shipper_details.is_accepted":true})
     }
 }

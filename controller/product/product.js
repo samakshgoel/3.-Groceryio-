@@ -8,23 +8,19 @@ module.exports = {
     async addProduct(req,res){
         console.log(req.file)
         const path = req.file.path
-        
         req.body = JSON.parse(JSON.stringify(req.body))
         let data = req.body;
-        console.log("datatata",req.body)
         if( !data.category_id || !data.name || !data.brand || !data.pack_size) return response.errorResponse(res,422,"Data is missing");
-
         try{
             let isProductExist = await productModule.getOneProduct(data);
-            console.log("is prodiuct exist ", isProductExist);
             if(isProductExist){
                 removeImage(path);
                 return response.succesResponse(res,422,"product already added!")
             } 
             const image = await firebaseService.getUrl(path,"Profile Image");
             data.image = image;
+            data.added_by =req.user._id
             let product = await productModule.createProduct(data);
-            console.log("product adding :",path);
             removeImage(path);
             return response.succesResponse(res,200,product); 
         }catch(err){
@@ -38,7 +34,6 @@ module.exports = {
         let name = req.body.name;
         let skip = req.body.skip;
         let limit = req.body.limit;
-        console.log(category_id)
         if(!category_id) return response.errorResponse(res,422,"category id is missing !");
         try{
             let products = await productModule.getAllProducts(name,category_id,skip,limit);

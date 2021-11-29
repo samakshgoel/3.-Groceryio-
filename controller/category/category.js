@@ -21,8 +21,6 @@ module.exports ={
             return res.status(422).send({code:422,status:'failed',msg:err.message});
         }
     },
-
-    
     async getParentsCategory(req,res){
         let parent_id = req.body.parent_id;
         let categoryList;

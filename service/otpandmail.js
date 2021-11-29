@@ -7,7 +7,7 @@ const serviceId = process.env.TWILIO_SERVICE_SID
 const client = require('twilio')(accountSid, authToken,serviceId);
 const {userModule} = require('../model');
 
-const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false ,alphabets:false,digits:true});
+// const otp = otpGenerator.generate(6, { upperCase: false, specialChars: false ,alphabets:false,digits:true});
 
 module.exports = {
     

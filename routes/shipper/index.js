@@ -6,7 +6,8 @@ const shipperController = require('../../controller/shipper/shipper');
 ROUTE.post('/create-shipper-account',shipperController.createShipper);
 ROUTE.delete('/remove-shipper-account/:shipper_id',shipperController.removeShipper);
 ROUTE.get('/get-all-shipper',shipperController.getallShipper);
-ROUTE.put('update-shipper-account/shipper_id',shipperController.updateShipper)
+ROUTE.put('/update-shipper-account/shipper_id',shipperController.updateShipper)
+ROUTE.get('/shipper-order-details',shipperController.shipperOrderDetails)
 
 
 /************Shipper related routes******* */

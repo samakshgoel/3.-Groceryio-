@@ -24,12 +24,12 @@ function authorize(roles = []) {
                 return res.status(401).json({ message: 'Unauthorized' });
             }
             switch (req.user.roles) {
-            case 'user':
+            case 'User':
                 userModule.getUser({_id:req.user._id}).then(
                     user => {
                         if (user) {
                             req.user = user
-                            req.userType = 'user'
+                            req.userType = 'User'
                             next()
                         } else {
                         return res.status(404).json({ message: 'User Not Found' })
@@ -37,13 +37,13 @@ function authorize(roles = []) {
                     }
                 )
             break
-            case 'admin':
+            case 'Admin':
 				adminModule.getAdmin(req.user.email).then(
 					user => {
     
 						if (user) {
 							req.user = user
-							req.userType = 'admin'
+							req.userType = 'Admin'
 							next()
 						} else {
 							return res.status(404).json({ message: 'Admin Not Found' })
@@ -52,13 +52,13 @@ function authorize(roles = []) {
 				)
 			break
 
-            case 'shipper':
+            case 'Shipper':
                 adminModule.getShipperByEmail(req.user.email).then(
                     user => {
     
                         if (user) {
                             req.user = user
-                            req.userType = 'shipper'
+                            req.userType = 'Shipper'
                             next()
                         } else {
                             return res.status(404).json({ message: 'shipper Not Found' })
