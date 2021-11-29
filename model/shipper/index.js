@@ -27,7 +27,7 @@ module.exports={
     },
 
     async shipperByPincode(pincode,date){
-        console.log("pincodepincodepincodepincodepincode",pincode,"  datedate:::",date)
+        console.log("pincode is ",pincode,"  datedate:::",date)
         return await shipperModule.aggregate([
             {
                 $match:{pincode:pincode, is_removed:false}

@@ -19,4 +19,13 @@ module.exports = {
         return await shipperAvailabilityModule.updateOne({shipper_id:shipper_id,  'availabilities.date':date},{$set:{'availabilities.$.is_availaile':false}})
     },
 
+    async updateDeliveryQuantity(shipper_id,date,delivery_quantity){
+        return await shipperAvailabilityModule.updateOne({shipper_id:shipper_id,'availabilities.date':date},{$set:{'availabilities.$.delivery_quantity':delivery_quantity}})
+    },
+
+    async shipperQuantityDetails(shipper_id, date){
+        return await shipperAvailabilityModule.findOne({shipper_id: shipper_id},{availabilities: {$elemMatch: {date:date}}})
+        //
+        // {shipper_id:shipper_id,'availabilities.date':date}
+    }
 }
