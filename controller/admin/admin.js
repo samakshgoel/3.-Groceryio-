@@ -7,6 +7,7 @@ module.exports = {
 
     /*Admin signup */
     async signUp(req,res){
+        console.log("hey")
         let data = req.body;
         if(!data.password || !data.email || !data.first_name || !data.last_name) return response.errorResponse(res,422,'Data is missing!')
 
