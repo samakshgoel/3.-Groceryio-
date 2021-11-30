@@ -8,7 +8,7 @@ const product_schema = new mongoose.Schema({
 
 const shipper_schema = new mongoose.Schema({
     shipper_id:{type: mongoose.Schema.ObjectId, required :true},
-    is_accepted : {type:Boolean,required :false},
+    is_accepted : {type:Boolean,default : null},
 })
 
 const order= new mongoose.Schema({

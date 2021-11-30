@@ -1,5 +1,5 @@
 const response = require('../../service/response');
-const {orderModule, inventoryModule, shipperModule, shipperAvailabilityModule} = require('../../model');
+const {orderModule, inventoryModule, shipperModule} = require('../../model');
 const moment = require('moment')
 module.exports = {
 

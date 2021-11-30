@@ -4,12 +4,7 @@ const moment = require('moment')
 module.exports = {
 
     async setNewAvailibility(month,year,shipper_id){
-        // datee =  moment(date.date).format('DD-MM-YYYY');
-        // console.log(datee);
-        // datee = datee.split('-')
-        // console.log("dddddddddddddddddddddddddd",datee);
-        // let month = datee[1];
-        // let year = datee[2];
+
         let total_days = moment(year+"-"+month,"YYYY-MM").daysInMonth();
         let data = {
             shipper_id : shipper_id,

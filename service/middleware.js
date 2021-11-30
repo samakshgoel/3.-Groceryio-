@@ -1,7 +1,7 @@
 const jwt =  require('express-jwt')
 const secret= process.env.JWT_KEY;
 const configjson= require("config.json");
-const {adminModule,userModule}= require('../model');
+const {adminModule,userModule, shipperModule}= require('../model');
 
 
 module.exports = authorize;
@@ -52,8 +52,8 @@ function authorize(roles = []) {
 				)
 			break
 
-            case 'Shipper':
-                adminModule.getShipperByEmail(req.user.email).then(
+            case 'shipper':
+                shipperModule.getShipperByEmail(req.user.shipper_email).then(
                     user => {
     
                         if (user) {
