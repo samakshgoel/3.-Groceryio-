@@ -53,6 +53,25 @@ module.exports = {
         sgMail.send(message);
     },
 
+
+    async sendDelayToShipper(to_email){
+        console.log("email ???",to_email)
+        const message = {
+        from: process.env.SENDGRID_FROM_EMAIL,
+        to: to_email,
+        templateId: 'd-df0df6cf95434f94bf2256079f476364',
+        dynamic_template_data: {
+            subject: 'Delay in Shipment',
+            name: 'Yusuf',
+            city: 'Gurgaon',
+          },
+        // subject:"Login credentials of your account",
+        // text: `Here is your login credentials for shipper account. \n Username : ${to_email} \n Password : ${Password} `  
+        };
+        console.log("Message is ::::",message);
+        sgMail.send(message);
+    },
+
 }
 
 

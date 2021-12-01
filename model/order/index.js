@@ -22,6 +22,7 @@ module.exports={
         return await orderModule.findOne({"shipper_details.shipper_id":id,"shipper_details.is_accepted":true})
     },
     async orderStatus(order_id,shipper_id,status){
+        console.log("order_id,shipper_id,status::",order_id,shipper_id,status)
         return await orderModule.findOneAndUpdate({_id:order_id, 'shipper_details.shipper_id':shipper_id},{$set:{'shipper_details.$.is_accepted':status}})
     },
 

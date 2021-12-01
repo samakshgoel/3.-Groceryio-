@@ -2,13 +2,10 @@ const response = require('../../service/response');
 const mailservice = require('../../service/otpandmail');
 const otpGenerator = require('otp-generator');
 const jwt = require('jsonwebtoken');
-const { shipperModule, shipperAvailabilityModule } = require('../../model');
-const orderModule = require('../../model/order/index')
 const { shipperModule, shipperAvailabilityModule , orderModule} = require('../../model');
 const bcrypt = require('bcryptjs');
 const moment = require('moment')
 const getDateData = require('../../service/date');
-const { getShipperOrderList } = require('../../model/order/index');
 
 module.exports = {
 
@@ -178,34 +175,60 @@ module.exports = {
     async responseOrder(req,res){
         let isAccept = req.body.isAccept;
         let pincode = req.body.pincode;
-        let shipper_id = req.user._id;
+        // let shipper_id = req.user._id;
+        let shipper_id = req.body.shipper_id;
+
         let order_id = req.params.order_id;
         console.log("req.body in deny order API ::", req.body);
         if(!order_id) return response.errorResponse(res,422,"id is missing!");
         
         try{
             let orderStatus = await orderModule.orderStatus(order_id,shipper_id,isAccept);
-
+            console.log(orderStatus)
             //if shipper accepts the order--
             if(isAccept){
                 let shipperDeliveryQuantity = await shipperAvailabilityModule.shipperQuantityDetails(shipper_id,orderStatus.delievery_date);
                 let delivery_quantity = shipperDeliveryQuantity.availabilities[0].delivery_quantity + 1;
-                let updateShipperDelivery = shipperAvailabilityModule.updateDeliveryQuantity(shipper_id,orderStatus.delievery_date,delivery_quantity);
+                shipperAvailabilityModule.updateDeliveryQuantity(shipper_id,orderStatus.delievery_date,delivery_quantity);
 
             }else{
                 //if shipper denied the order--
-                let asignShipper = await shipperModule.shipperByPincode(pincode,orderStatus.delievery_date);
-                asignShipper = JSON.parse(JSON.stringify(asignShipper));
+                console.log("han mai kaam kr rha hu")
+                let flag ;
+                let count = 0; 
+                let mymail = await mailservice.sendDelayToShipper('samaksh.bhadanitech@gmail.com');
+                console.log("Afterr the eerrooorr :::::")
+                return res.send({"mail sent:":mymail});
+                // while(true){
+                //     let extened_date = orderStatus.delievery_date.split('-').reverse() ;
 
-                for(let ele = 0; ele< asignShipper.length-1;ele++){    
-                    let flag = orderStatus.shipper_details.some(shipper=> shipper.shipper_id == asignShipper[ele]._id);
-                    if(flag == false){
-                        console.log("eleme t id is here ::",asignShipper[ele]._id )
-                        let shipper_details = [{shipper_id:asignShipper[ele]._id}]
-                        let updateOrder = orderModule.addShipper(orderStatus._id,shipper_details);
-                        break
-                    }
-                }
+                //     var duration = moment.duration({'days' : count});
+                //     let myDate = moment(extened_date).add(duration).format('D-MM-YYYY');
+
+                //     if(count>3) return response.succesResponse(res,200,"Because of unavailibility of any shipper,You can't deny for the oder");
+
+                //     let asignShipper = await shipperModule.shipperByPincode(pincode,myDate);
+                //     asignShipper = JSON.parse(JSON.stringify(asignShipper));
+    
+                //     for(let ele = 0; ele< asignShipper.length-1;ele++){    
+                //         flag = orderStatus.shipper_details.some(shipper=> shipper.shipper_id == asignShipper[ele]._id);
+                //         if(flag == false){
+                //             console.log("eleme t id is here ::",asignShipper[ele]._id )
+                //             let shipper_details = [{shipper_id:asignShipper[ele]._id}]
+                //             let updateOrder = orderModule.addShipper(orderStatus._id,shipper_details);
+
+                //             break
+                //         }
+                //     }
+                //     if(flag == false) break;
+                //     count += 1;
+
+                //     // if()
+
+
+                // }
+                
+
             }
             return response.succesResponse(res,200,"Successfully Done!!");
         }catch(err){
@@ -269,3 +292,9 @@ module.exports = {
     }
 
 }
+
+
+
+/*
+
+*/

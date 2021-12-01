@@ -24,18 +24,18 @@ module.exports = {
                 extened_date = extened_date + 1;
             }
             console.log("shipper222222::::",shipper);
-            // data.shipper_details = [{shipper_id:shipper[0]._id}]
-            // console.log("data.shipper_details",data.shipper_details)
+            data.shipper_details = [{shipper_id:shipper[0]._id}]
+            console.log("data.shipper_details",data.shipper_details)
         
             
-            // let order = await orderModule.orderCreate(data);
-            // console.log("Created order::",order);
-            // order.product_details.map(async (element) => {
-            //     let getInventory = await inventoryModule.getInventory(element.product_id);
-            //     let updated_booked_product = getInventory.booked_product + element.quantity;
-            //     let updateInventory = await inventoryModule.updateInventory(element.product_id,{booked_product:updated_booked_product})
-            //     console.log("updateInventory result is :",updateInventory);
-            // });
+            let order = await orderModule.orderCreate(data);
+            console.log("Created order::",order);
+            order.product_details.map(async (element) => {
+                let getInventory = await inventoryModule.getInventory(element.product_id);
+                let updated_booked_product = getInventory.booked_product + element.quantity;
+                let updateInventory = await inventoryModule.updateInventory(element.product_id,{booked_product:updated_booked_product})
+                console.log("updateInventory result is :",updateInventory);
+            });
             
             return response.succesResponse(res,200,shipper);
         }catch(err){

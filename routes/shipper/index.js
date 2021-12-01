@@ -17,7 +17,7 @@ ROUTE.post('/set-availability',shipperController.setAvailability);
 ROUTE.post('/login',shipperController.login);
 ROUTE.put('/update-shipper-password',authorize(roles.Shipper),shipperController.updatePassword);
 ROUTE.put('/apply-for-leave',authorize(roles.Shipper),shipperController.applyLeaves);
-ROUTE.put('/response-order-request/:order_id',authorize(roles.Shipper),shipperController.responseOrder);
+ROUTE.put('/response-order-request/:order_id',shipperController.responseOrder);//,authorize(roles.Shipper)
 
 
 
